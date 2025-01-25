@@ -1,3 +1,4 @@
+/* App.css */
 /* Dashboard Layout */
 .dashboard-container {
     padding: 24px;
@@ -14,21 +15,49 @@
     color: #374151;
 }
 
-/* Cards Grid */
+/* Update the cards grid styles */
 .cards-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    display: flex;  /* Changed from grid to flex */
     gap: 16px;
     margin-bottom: 32px;
+    overflow-x: auto;  /* Enable horizontal scroll */
+    padding-bottom: 12px;  /* Add padding for scroll bar */
+    -webkit-overflow-scrolling: touch;  /* Smooth scrolling on iOS */
 }
 
 .dashboard-card {
+    min-width: 200px;  /* Add minimum width to cards */
     padding: 16px;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;  /* Prevent cards from shrinking */
+}
+.dashboard-card img {
+    height:160px;
+    /* width: 100%;
+    height: 100%; */
+    /* object-fit: cover; */
 }
 
+/* Optional: Hide scrollbar but keep functionality */
+.cards-grid::-webkit-scrollbar {
+    height: 8px;
+}
+
+.cards-grid::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.cards-grid::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.cards-grid::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
 .card-title {
     font-size: 0.875rem;
     color: #6B7280;
@@ -108,7 +137,7 @@
     padding: 1rem 2rem;
     background-color: white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width:100%;
+    max-width:100vw;
 }
 
 .nav-left {
@@ -132,7 +161,7 @@
 .nav-link:hover {
     color: #1F2937;
 }
-
+.
 /* Responsive Design */
 @media (max-width: 480px) {
     .navbar {
@@ -142,24 +171,6 @@
     .nav-right {
         gap: 1rem;
     }
-}/* App.css */
-
-/* Apply the black background and white text globally */
-body {
-    background-color: black; /* Black background */
-    color: white; /* White text */
-    font-family: Arial, sans-serif; /* Set a clean, modern font */
-    margin: 0; /* Remove default margin */
-    padding: 0; /* Remove default padding */
-    height: 100%; /* Ensure the body takes full height */
-}
-
-/* Ensure the root app container takes up the full height */
-#root {
-    min-height: 100vh; /* Full viewport height */
-    display: flex;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
 }
 
 /* Input fields styling */
@@ -206,4 +217,102 @@ button:hover {
     background-color: #222; /* Darker gray background for the form container */
     border-radius: 8px; /* Rounded corners for the container */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); /* Subtle shadow for depth */
+}
+
+/* Empty State Styles */
+.empty-state {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #f9fafb;
+}
+
+.empty-state-content {
+    max-width: 400px;
+    text-align: center;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 40px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.empty-state-image {
+    width: 200px;
+    height: 200px;
+    margin-bottom: 24px;
+}
+
+.empty-state-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 12px;
+}
+
+.empty-state-message {
+    color: #6b7280;
+    margin-bottom: 24px;
+    line-height: 1.5;
+}
+
+.empty-state-button {
+    padding: 10px 20px;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.empty-state-button:hover {
+    background-color: #2563eb;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .empty-state-content {
+        padding: 24px;
+    }
+
+    .empty-state-image {
+        width: 150px;
+        height: 150px;
+    }
+
+    .empty-state-title {
+        font-size: 1.25rem;
+    }
+}
+.add-entry-button {
+    padding: 10px 20px;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    /* width:60px; */
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+/* Modals */
+.day-entry {
+    /* display:none; */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.new-injury {
+    /* display:none; */
+    position: fixed;
 }
