@@ -1,51 +1,48 @@
+import os
 from flask import Flask, jsonify
 from flask_cors import CORS
-import ArmTracking
-import openai
-import os
 from dotenv import load_dotenv
+import openai
 
-# Load environment variables from .env file
+import ArmTracking
+
+# Load environment variables from .env
 load_dotenv()
 
-# Load your OpenAI API key from environment variables or replace with your API key
-openai.api_key = os.getenv("OPENAI_API_KEY")
+# Create a new client for openai>=1.0.0
+openai_client = openai.Client(api_key=os.getenv("OPENAI_API_KEY"))
 
 app = Flask(__name__)
 CORS(app)
 
 def generate_prompt(rom):
-    """
-    Generate a prompt based on the ROM value.
-    """
-    return f"My arm's range of motion is {rom} degrees. Suggest some exercises or advice to improve my shoulder flexibility and mobility."
+    return (
+        f"My arm's range of motion is {rom} degrees. "
+        "Suggest some exercises or advice to improve my shoulder flexibility and mobility."
+    )
 
 def query_llm(prompt):
-    """
-    Query the LLM (GPT) with the given prompt.
-    """
     try:
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",  # Use "gpt-4" if available
+        # Using the new client-based API
+        response = openai_client.chat.completions.create(
+            model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": "You are a physiotherapy assistant."},
-                {"role": "user", "content": prompt}
+                {"role": "user", "content": prompt},
             ],
             temperature=0.7,
             max_tokens=150
         )
         # Extract the assistant's reply
-        return response['choices'][0]['message']['content']
+        return response.choices[0].message.content
     except Exception as e:
         return f"Error querying LLM: {e}"
 
 @app.route('/get_rom', methods=['GET'])
 def get_rom():
     try:
-        # Call the track_arm_rom function from ArmTracker.py
-        rom = ArmTracking.track_arm_rom()
+        rom = ArmTracking.track_arm_rom()  # your function to detect ROM
         if rom is not None:
-            # Generate a prompt and query the LLM
             prompt = generate_prompt(rom)
             llm_response = query_llm(prompt)
             return jsonify({
