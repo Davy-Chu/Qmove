@@ -63,13 +63,13 @@ with col_right:
     # Render the Matplotlib figure in Streamlit
     st.pyplot(fig)
 
-    st.markdown("### Database Information")
-    # Placeholder data for demonstration;
-    # replace this with a real query result once your DB is set up.
-    db_data = {
-        "ID": [101, 102, 103],
-        "Name": ["Alice", "Bob", "Charlie"],
-        "Notes": ["Shoulder rehab", "Knee rehab", "General PT"]
-    }
-    db_df = pd.DataFrame(db_data)
-    st.dataframe(db_df, use_container_width=True)
+    # Display description below the graph
+    st.markdown("### Description")
+    st.markdown(f"""
+    - **Selected Day:** {st.session_state.selected_day}
+    - **ROM Gained on Selected Day:** {selected_rom}°
+    
+    This graph tracks the daily range of motion (ROM) gained during rehabilitation. 
+    Use this visualization to monitor your progress and identify trends. For the selected day, 
+    you achieved a ROM gain of **{selected_rom} degrees**, which reflects your improvement.
+    """)
