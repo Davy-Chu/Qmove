@@ -11,8 +11,9 @@
 
 .days-header h2 {
     font-size: 1.25rem;
+    font-weight: bold;
     font-weight: 700;
-    color: #374151;
+    color: #dcdcdc;
 }
 
 /* Update the cards grid styles */
@@ -28,7 +29,7 @@
 .dashboard-card {
     min-width: 200px;  /* Add minimum width to cards */
     padding: 16px;
-    background-color: white;
+    background-color: #dcdcdc;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     flex-shrink: 0;  /* Prevent cards from shrinking */
@@ -78,7 +79,7 @@
 }
 
 .stats-panel {
-    background-color: white;
+    background-color: #dcdcdc;
     padding: 16px;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -135,14 +136,22 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
-    background-color: white;
+    background-color: #dcdcdc;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* width:100%; */
+    max-width: 100vw;
     max-width:100vw;
 }
 
 .nav-left {
     display: flex;
     align-items: center;
+}
+
+.nav-logo {
+    width: 70px; /* Adjust the size as needed */
+    height: auto; /* Maintain the aspect ratio */
+    filter: brightness(0) saturate(100%); /*makes logo black*/
 }
 
 .nav-right {
@@ -218,6 +227,29 @@ button:hover {
     border-radius: 8px; /* Rounded corners for the container */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); /* Subtle shadow for depth */
 }
+
+
+/* Ensure the container takes full height */
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Logo styling */
+.logo {
+    margin-bottom: 20px; /* Space between the logo and the login form */
+    text-align: center;
+}
+
+.logo svg {
+   /* width: 150px; /* Adjust the size of the logo */
+ /*   height: 150px;*/
+    fill: white; /* Optional: Adjust color to match your theme */
+}
+
 
 /* Empty State Styles */
 .empty-state {
