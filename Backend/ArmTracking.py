@@ -2,6 +2,7 @@ import cv2
 import mediapipe as mp
 import numpy as np
 import time
+import os
 
 mp_pose = mp.solutions.pose
 pose = mp_pose.Pose()
@@ -22,6 +23,10 @@ def track_arm_rom():
     hold_duration = 3
     angle_threshold = 15
     cap = cv2.VideoCapture(0)
+
+    # Ensure output folder exists
+    output_folder = "ROM_Captures"
+    os.makedirs(output_folder, exist_ok=True)
 
     print("Position yourself. Tracking will start in 5 seconds.")
     buffer_start = time.time()
@@ -71,6 +76,14 @@ def track_arm_rom():
                 if hold_start_time and (time.time() - hold_start_time >= hold_duration):
                     final_angle = int(highest_angle)
                     print(f"ROM: {final_angle}° from starting position.")
+
+                    # Take a photo and save it
+                    timestamp = time.strftime("%Y%m%d_%H%M%S")
+                    filename = f"ROM_{final_angle}_degrees_{timestamp}.jpg"
+                    file_path = os.path.join(output_folder, filename)
+                    cv2.imwrite(file_path, frame)
+                    print(f"Photo saved: {file_path}")
+
                     cap.release()
                     cv2.destroyAllWindows()
                     return final_angle
