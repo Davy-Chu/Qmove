@@ -16,16 +16,18 @@ if "selected_day" not in st.session_state:
     st.session_state.selected_day = days[0]  # Default to "Day 1"
 
 # Create two columns: left (1 part) and right (2 parts)
-col_left, col_right = st.columns([1, 2])
+col_left, col_right = st.columns([1.5, 1.5])
 
 with col_left:
     st.title("Days")
     st.write("Click a day to view its data:")
 
-    # Display days as clickable buttons
-    for day in days:
-        if st.button(day):
-            st.session_state.selected_day = day  # Update the selected day
+    # Display days as a grid of buttons (7 per row)
+    for i in range(0, len(days), 7):  # Iterate in steps of 7
+        cols = st.columns(7)  # Create 7 columns for buttons
+        for j, day in enumerate(days[i:i + 7]):  # Loop through the 7 days for this row
+            if cols[j].button(day, key=day):
+                st.session_state.selected_day = day  # Update the selected day
 
     st.write(f"**Selected Day:** {st.session_state.selected_day}")
 
@@ -63,13 +65,13 @@ with col_right:
     # Render the Matplotlib figure in Streamlit
     st.pyplot(fig)
 
-    st.markdown("### Database Information")
-    # Placeholder data for demonstration;
-    # replace this with a real query result once your DB is set up.
-    db_data = {
-        "ID": [101, 102, 103],
-        "Name": ["Alice", "Bob", "Charlie"],
-        "Notes": ["Shoulder rehab", "Knee rehab", "General PT"]
-    }
-    db_df = pd.DataFrame(db_data)
-    st.dataframe(db_df, use_container_width=True)
+    # Display description below the graph
+    st.markdown("### Description")
+    st.markdown(f"""
+    - **Selected Day:** {st.session_state.selected_day}
+    - **ROM Gained on Selected Day:** {selected_rom}°
+    
+    This graph tracks the daily range of motion (ROM) gained during rehabilitation. 
+    Use this visualization to monitor your progress and identify trends. For the selected day, 
+    you achieved a ROM gain of **{selected_rom} degrees**, which reflects your improvement.
+    """)
