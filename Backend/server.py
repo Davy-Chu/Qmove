@@ -28,14 +28,14 @@ def generate_prompt(rom):
     """
     Generate a prompt based on the ROM value.
     """
-    return f"My arm's range of motion is {rom} degrees. Suggest some exercises or advice to improve my shoulder flexibility and mobility."
+    return f"My arm's range of motion is {rom} degrees. Suggest some exercises or advice to improve my shoulder flexibility and mobility based on my current range of motion."
 
 def query_llm(prompt):
     """
     Query the LLM (GPT) with the given prompt.
     """
     try:
-        response = openai_client.chat.completions.create.create(
+        response = openai_client.chat.completions.create(
             model="gpt-4",  # Use "gpt-4" if available
             messages=[
                 {"role": "system", "content": "You are a physiotherapy assistant."},
@@ -45,7 +45,7 @@ def query_llm(prompt):
             max_tokens=150
         )
         # Extract the assistant's reply
-        return response['choices'][0]['message']['content']
+        return response.choices[0].message.content
     except Exception as e:
         return f"Error querying LLM: {e}"
 
