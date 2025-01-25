@@ -1,9 +1,14 @@
 import './App.css';
-
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Login from './pages/Login';
 function App() {
   return (
     <div className="App">
-      <h1>Qhacks App</h1>
+      <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Login />} />
+      </Routes>
+    </BrowserRouter>
     </div>
   );
 }
