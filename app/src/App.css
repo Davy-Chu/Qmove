@@ -10,8 +10,9 @@
 
 .days-header h2 {
     font-size: 1.25rem;
+    font-weight: bold;
     font-weight: 700;
-    color: #374151;
+    color: #dcdcdc;
 }
 
 /* Cards Grid */
@@ -24,7 +25,7 @@
 
 .dashboard-card {
     padding: 16px;
-    background-color: white;
+    background-color: #dcdcdc;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
@@ -49,7 +50,7 @@
 }
 
 .stats-panel {
-    background-color: white;
+    background-color: #dcdcdc;
     padding: 16px;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -106,7 +107,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
-    background-color: white;
+    background-color: #dcdcdc;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     /* width:100%; */
     max-width: 100vw;
@@ -115,6 +116,12 @@
 .nav-left {
     display: flex;
     align-items: center;
+}
+
+.nav-logo {
+    width: 70px; /* Adjust the size as needed */
+    height: auto; /* Maintain the aspect ratio */
+    filter: brightness(0) saturate(100%); /*makes logo black*/
 }
 
 .nav-right {
@@ -147,7 +154,7 @@
 
 /* Apply the black background and white text globally */
 body {
-    background-color: black; /* Black background */
+    background-color: #1c1c1e; /* Black background */
     color: white; /* White text */
     font-family: Arial, sans-serif; /* Set a clean, modern font */
     margin: 0; /* Remove default margin */
@@ -156,12 +163,12 @@ body {
 }
 
 /* Ensure the root app container takes up the full height */
-#root {
-    /* min-height: 100vh; */
-    /* display: flex; */
-    /* justify-content: center;
-    align-items: center;  */
-}
+/*#root {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+}*/
 
 /* Input fields styling */
 input {
@@ -230,3 +237,4 @@ button:hover {
  /*   height: 150px;*/
     fill: white; /* Optional: Adjust color to match your theme */
 }
+

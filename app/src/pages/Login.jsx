@@ -257,14 +257,14 @@ export default function Login() {
                         />
                     </g>
                 </svg>
-                <div style={{ fontFamily: "'Impact', sans-serif", fontSize: "6rem", marginTop: "-20px" }}>
+                <div style={{ fontFamily: "'Impact', sans-serif", fontSize: "6rem", marginTop: "-35px"}}>
                 Qmove
                 </div>
             </div>
 
             
 
-            <div className="login" style={{ textAlign: "center", marginTop: "50px" }}>
+            <div className="login" style={{ textAlign: "center", marginTop: "40px" }}>
                 <h1>Login</h1>
                 <input
                     type="email"
