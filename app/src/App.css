@@ -1,0 +1,65 @@
+/* App.css */
+
+/* Apply the black background and white text globally */
+body {
+    background-color: black; /* Black background */
+    color: white; /* White text */
+    font-family: Arial, sans-serif; /* Set a clean, modern font */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+    height: 100%; /* Ensure the body takes full height */
+}
+
+/* Ensure the root app container takes up the full height */
+#root {
+    min-height: 100vh; /* Full viewport height */
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+
+/* Input fields styling */
+input {
+    background-color: #333; /* Dark gray background for inputs */
+    color: white; /* White text inside inputs */
+    border: 1px solid #555; /* Border color to match the dark theme */
+    border-radius: 4px; /* Slightly rounded corners */
+    padding: 10px; /* Padding inside inputs */
+    width: 300px; /* Consistent input width */
+    margin-bottom: 15px; /* Spacing between inputs */
+}
+
+/* Input fields focus effect */
+input:focus {
+    outline: none; /* Remove default blue outline */
+    border-color: white; /* Highlight border in white */
+}
+
+/* Button styling */
+button {
+    background-color: white; /* White background for contrast */
+    color: black; /* Black text for the button */
+    border: 1px solid transparent;
+    border-radius: 4px; /* Rounded corners */
+    padding: 10px 20px; /* Padding inside button */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 16px; /* Slightly larger font */
+    font-weight: bold; /* Bold text */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth hover effect */
+}
+
+/* Button hover effect */
+button:hover {
+    background-color: black; /* Black background on hover */
+    color: white; /* White text on hover */
+    border: 1px solid white; /* Optional: Add a white border */
+}
+
+/* Center the login form */
+.login {
+    text-align: center;
+    padding: 20px;
+    background-color: #222; /* Darker gray background for the form container */
+    border-radius: 8px; /* Rounded corners for the container */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); /* Subtle shadow for depth */
+}
