@@ -207,3 +207,24 @@ button:hover {
     border-radius: 8px; /* Rounded corners for the container */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); /* Subtle shadow for depth */
 }
+
+
+/* Ensure the container takes full height */
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Logo styling */
+.logo {
+    margin-bottom: 20px; /* Space between the logo and the login form */
+}
+
+.logo svg {
+   /* width: 150px; /* Adjust the size of the logo */
+ /*   height: 150px;*/
+    fill: white; /* Optional: Adjust color to match your theme */
+}
