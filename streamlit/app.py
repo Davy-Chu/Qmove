@@ -16,16 +16,18 @@ if "selected_day" not in st.session_state:
     st.session_state.selected_day = days[0]  # Default to "Day 1"
 
 # Create two columns: left (1 part) and right (2 parts)
-col_left, col_right = st.columns([1, 2])
+col_left, col_right = st.columns([1.5, 1.5])
 
 with col_left:
     st.title("Days")
     st.write("Click a day to view its data:")
 
-    # Display days as clickable buttons
-    for day in days:
-        if st.button(day):
-            st.session_state.selected_day = day  # Update the selected day
+    # Display days as a grid of buttons (7 per row)
+    for i in range(0, len(days), 7):  # Iterate in steps of 7
+        cols = st.columns(7)  # Create 7 columns for buttons
+        for j, day in enumerate(days[i:i + 7]):  # Loop through the 7 days for this row
+            if cols[j].button(day, key=day):
+                st.session_state.selected_day = day  # Update the selected day
 
     st.write(f"**Selected Day:** {st.session_state.selected_day}")
 
