@@ -1,24 +1,10 @@
-import os
-from absl import logging
-import warnings
-
-# Suppress warnings and logs
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
-logging.set_verbosity(logging.ERROR)
-warnings.filterwarnings("ignore", category=UserWarning, module="google.protobuf")
-warnings.filterwarnings("ignore", message="Secure coding is not enabled for restorable state")
-warnings.filterwarnings("ignore", message="Using NORM_RECT without IMAGE_DIMENSIONS")
-
 import cv2
 import mediapipe as mp
 import numpy as np
-import math
 import time
 
-with warnings.catch_warnings():
-    warnings.filterwarnings("ignore", message="Using NORM_RECT without IMAGE_DIMENSIONS")
-    mp_pose = mp.solutions.pose
-    pose = mp_pose.Pose()
+mp_pose = mp.solutions.pose
+pose = mp_pose.Pose()
 
 def calculate_angle(a, b, c):
     a = np.array(a)
@@ -30,13 +16,12 @@ def calculate_angle(a, b, c):
         angle = 360.0 - angle
     return angle
 
-def main():
+def track_arm_rom():
     highest_angle = 0
     hold_start_time = None
     hold_duration = 3
-    angle_threshold = 10
+    angle_threshold = 15
     cap = cv2.VideoCapture(0)
-    final_angle = None
 
     print("Position yourself. Tracking will start in 5 seconds.")
     buffer_start = time.time()
@@ -51,8 +36,10 @@ def main():
             print("Exiting during setup.")
             cap.release()
             cv2.destroyAllWindows()
-            return
+            return None
+
     print("Tracking started.")
+    final_angle = None
 
     while cap.isOpened():
         ret, frame = cap.read()
@@ -82,9 +69,11 @@ def main():
 
             if highest_angle - arm_angle <= angle_threshold:
                 if hold_start_time and (time.time() - hold_start_time >= hold_duration):
-                    final_angle = f"ROM: {int(highest_angle)}° from starting position."
-                    print(final_angle)
-                    break
+                    final_angle = int(highest_angle)
+                    print(f"ROM: {final_angle}° from starting position.")
+                    cap.release()
+                    cv2.destroyAllWindows()
+                    return final_angle
             else:
                 hold_start_time = None
 
@@ -98,14 +87,11 @@ def main():
         key = cv2.waitKey(10)
         if key == 27:
             print("Exiting program (ESC).")
-            break
+            cap.release()
+            cv2.destroyAllWindows()
+            return None
 
     cap.release()
     cv2.destroyAllWindows()
-
-    return final_angle
-
-if __name__ == "__main__":
-    result = main()
-    if result:
-        print(f"Final result: {result}")
+    print("Failed to capture ROM.")
+    return None
