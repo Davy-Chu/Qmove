@@ -1,33 +1,122 @@
-import { useState } from "react";
+import { useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
+import { gsap } from "gsap"; //move pieces of logo
 //import Logo from "/logo.svg"; // Path to your SVG file
+
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
-    const login = () => {
-        if (email === "" && password === "") {
-            alert("Invalid email or password");
-        } else {
-            console.log("Login successful!");
-            navigate("/dashboard"); // Redirect to the dashboard
-        }
-    };
+    useEffect(() => {
+        // Define the timeline for the animation
+        const tl = gsap.timeline();
+
+        // Initial animation: Move pieces apart at start
+        gsap.set("#shape1", { x: -200, y: -200, opacity: 0 });
+        gsap.set("#shape2", { x: 200, y: -200, opacity: 0 });
+        gsap.set("#shape3", { x: -300, y: 300, opacity: 0 });
+        gsap.set("#shape4", { x: 300, y: 300, opacity: 0 });
+        gsap.set("#shape5", { x: -250, y: -250, opacity: 0 });
+        gsap.set("#shape6", { x: 250, y: -250, opacity: 0 });
+        gsap.set("#shape7", { x: -350, y: 350, opacity: 0 });
+        gsap.set("#shape8", { x: 350, y: 350, opacity: 0 });
+        gsap.set("#shape9", { x: -400, y: -400, opacity: 0 });
+        gsap.set("#shape10", { x: 400, y: -400, opacity: 0 });
+        gsap.set("#shape11", { x: -450, y: 450, opacity: 0 });
+        gsap.set("#shape12", { x: 450, y: 450, opacity: 0 });
+        gsap.set("#shape13", { x: -300, y: -300, opacity: 0 });
+        gsap.set("#shape14", { x: 300, y: -300, opacity: 0 });
+        gsap.set("#shape15", { x: -350, y: 350, opacity: 0 });
+        gsap.set("#shape16", { x: 350, y: 350, opacity: 0 });
+        gsap.set("#shape17", { x: -250, y: -250, opacity: 0 });
+        gsap.set("#shape18", { x: 250, y: -250, opacity: 0 });
+        gsap.set("#shape19", { x: -200, y: 200, opacity: 0 });
+        gsap.set("#shape20", { x: 200, y: 200, opacity: 0 });
+        gsap.set("#shape21", { x: -150, y: -150, opacity: 0 });
+        gsap.set("#shape22", { x: 150, y: -150, opacity: 0 });
+        gsap.set("#shape23", { x: -100, y: 100, opacity: 0 });
+
+        // Assemble animation: Move pieces together and fade in
+        const assembleTimeline = gsap.timeline();
+
+        // Add animations for each shape
+        assembleTimeline.to("#shape1", { x: 0, y: 0, opacity: 1, duration: 2, ease: "power2.out" });
+        assembleTimeline.to("#shape2", { x: 0, y: 0, opacity: 1, duration: 2, ease: "power2.out" }, "-=1.8");
+        assembleTimeline.to("#shape3", { x: 0, y: 0, opacity: 1, duration: 2, ease: "power2.out" }, "-=1.8");
+        assembleTimeline.to("#shape4", { x: 0, y: 0, opacity: 1, duration: 2, ease: "power2.out" }, "-=1.8");
+        assembleTimeline.to("#shape5", { x: 0, y: 0, opacity: 1, duration: 2, ease: "power2.out" }, "-=1.8");
+        assembleTimeline.to("#shape6", { x: 0, y: 0, opacity: 1, duration: 2, ease: "power2.out" }, "-=1.8");
+        assembleTimeline.to("#shape7", { x: 0, y: 0, opacity: 1, duration: 2, ease: "power2.out" }, "-=1.8");
+        assembleTimeline.to("#shape8", { x: 0, y: 0, opacity: 1, duration: 2, ease: "power2.out" }, "-=1.8");
+        assembleTimeline.to("#shape9", { x: 0, y: 0, opacity: 1, duration: 2, ease: "power2.out" }, "-=1.8");
+        assembleTimeline.to("#shape10", { x: 0, y: 0, opacity: 1, duration: 2, ease: "power2.out" }, "-=1.8");
+        assembleTimeline.to("#shape11", { x: 0, y: 0, opacity: 1, duration: 2, ease: "power2.out" }, "-=1.8");
+        assembleTimeline.to("#shape12", { x: 0, y: 0, opacity: 1, duration: 2, ease: "power2.out" }, "-=1.8");
+        assembleTimeline.to("#shape13", { x: 0, y: 0, opacity: 1, duration: 2, ease: "power2.out" }, "-=1.8");
+        assembleTimeline.to("#shape14", { x: 0, y: 0, opacity: 1, duration: 2, ease: "power2.out" }, "-=1.8");
+        assembleTimeline.to("#shape15", { x: 0, y: 0, opacity: 1, duration: 2, ease: "power2.out" }, "-=1.8");
+        assembleTimeline.to("#shape16", { x: 0, y: 0, opacity: 1, duration: 2, ease: "power2.out" }, "-=1.8");
+        assembleTimeline.to("#shape17", { x: 0, y: 0, opacity: 1, duration: 2, ease: "power2.out" }, "-=1.8");
+        assembleTimeline.to("#shape18", { x: 0, y: 0, opacity: 1, duration: 2, ease: "power2.out" }, "-=1.8");
+        assembleTimeline.to("#shape19", { x: 0, y: 0, opacity: 1, duration: 2, ease: "power2.out" }, "-=1.8");
+        assembleTimeline.to("#shape20", { x: 0, y: 0, opacity: 1, duration: 2, ease: "power2.out" }, "-=1.8");
+        assembleTimeline.to("#shape21", { x: 0, y: 0, opacity: 1, duration: 2, ease: "power2.out" }, "-=1.8");
+        assembleTimeline.to("#shape22", { x: 0, y: 0, opacity: 1, duration: 2, ease: "power2.out" }, "-=1.8");
+        assembleTimeline.to("#shape23", { x: 0, y: 0, opacity: 1, duration: 2, ease: "power2.out" }, "-=1.8");
+        
+
+        // Floating motion: Subtle movement once assembled
+       //gsap.to("#Layer1", {
+       //     y: "+=5", // Float vertically
+        //    x: "+=3", // Float horizontally
+       //     duration: 3,
+      //     repeat: -1, // Infinite repeat
+       //     yoyo: true, // Reverse the motion
+       //     ease: "power1.inOut", // Smooth movement
+       //     transformOrigin: "center center", // Float relative to the center
+         // });
+
+         assembleTimeline.eventCallback("onComplete", () => {
+            gsap.utils.toArray("path").forEach((shape) => {
+                gsap.to(shape, {
+                x: `random(-5, 5)`, // Random horizontal movement between -10 and 10 units
+                y: `random(-8, 8)`, // Random vertical movement between -10 and 10 units
+                duration: `random(3, 6)`, // Random duration between 3 and 6 seconds
+                repeat: -1, // Infinite loop
+                yoyo: true, // Reverse the motion
+                ease: "power1.inOut", // Smooth easing for natural movement
+                });
+            });
+        })
+
+
+    }, []);
+
+
+
+
+  const login = () => {
+    if (email === "" && password === "") {
+      alert("Invalid email or password");
+    } else {
+      console.log("Login successful!");
+      navigate("/dashboard"); // Redirect to the dashboard
+    }
+  };
+
 
     return (
-
-
         <div className="login-container">
             {/* Display the logo using the public folder */}
             <div className="logo">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 65 477 305"
+                    viewBox="0 0 500 500"
                     width="400"
-                    height="auto"
+                    height="300"
                 >
-                    <g id="Layer 1">
+                    <g id="Layer1">
                         <path
                         id="shape1"
                         fillRule="evenodd"
@@ -168,6 +257,9 @@ export default function Login() {
                         />
                     </g>
                 </svg>
+                <div style={{ fontFamily: "'Impact', sans-serif", fontSize: "6rem", marginTop: "-20px" }}>
+                Qmove
+                </div>
             </div>
 
             

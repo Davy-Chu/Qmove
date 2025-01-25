@@ -3,7 +3,7 @@
 	<style>
 		.s0 { fill: #ffffff;stroke: #000000;stroke-miterlimit:10;stroke-width: 0 } 
 	</style>
-	<g id="Layer 1">
+	<g id="Layer1">
 		<path id="shape1" fill-rule="evenodd" class="s0" d="m10 106l14 68 16-32z"/>
 		<path id="shape2" fill-rule="evenodd" class="s0" d="m45 159l-10 12-3 8 27 1z"/>
 		<path id="shape3" fill-rule="evenodd" class="s0" d="m26 185l-19 44 38-17 57 13-32-27-10-13z"/>
