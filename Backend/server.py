@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, send_from_directory
 from flask_cors import CORS
 import ArmTracking
 import openai
@@ -59,7 +59,7 @@ def save_to_mongodb(day, rom, description, image_path):
     result = collection.insert_one(document)
     return result.inserted_id
 
-@app.route('/get_rom', methods=['GET'])
+@app.route('/get_rom', methods=['GET', 'POST'])
 def get_rom():
     try:
         rom, image_path = ArmTracking.track_arm_rom()
@@ -72,12 +72,20 @@ def get_rom():
                 "rom": rom,
                 "prompt": prompt,
                 "llm_response": llm_response,
+                "image": image_path,
                 "status": "Data saved to MongoDB."
             })
         else:
             return jsonify({"error": "No ROM detected."})
     except Exception as e:
         return jsonify({"error": str(e)})
+@app.route('/get_images/<filename>', methods=['GET'])
+def get_images(filename):
+    IMAGE_FOLDER = os.path.join(os.path.dirname(__file__), "ROM_Captures")
+    try:
+        return send_from_directory(IMAGE_FOLDER, filename)
+    except Exception as e:
+        return {"error": f"File not found: {e}"}, 404
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)

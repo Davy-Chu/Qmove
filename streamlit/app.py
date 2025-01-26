@@ -12,7 +12,7 @@ MONGODB_URI = os.getenv("MONGODB_CONNECTION_STRING")
 
 # Connect to MongoDB
 client = MongoClient(MONGODB_URI)
-db = client["your_database_name"]  # Replace with your database name
+db = client["rehab_data"]  # Replace with your database name
 collection = db["rom_data"]  # Replace with your collection name
 
 # Fetch data from MongoDB
