@@ -24,6 +24,7 @@
     overflow-x: auto;  /* Enable horizontal scroll */
     padding-bottom: 12px;  /* Add padding for scroll bar */
     -webkit-overflow-scrolling: touch;  /* Smooth scrolling on iOS */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .dashboard-card {
@@ -340,6 +341,7 @@ button:hover {
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.2s ease;
+    margin-bottom:12px;
 }
 
 /* Modals */

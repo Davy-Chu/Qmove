@@ -1,39 +1,52 @@
-import Navbar from "../components/Navbar";
-import Daycard from "../components/Daycard";
-import NewInjuryModal from "../components/NewInjuryModal";
-import DayEntryModal from "../components/DayEntryModal";
-import { useState } from "react";
-
+import Navbar from '../components/Navbar';
+import Daycard from '../components/Daycard';
+import NewInjuryModal from '../components/NewInjuryModal';
+import axios from "axios";
+import { useState } from 'react';
 export default function Dashboard() {
-    const card = [
-        { day: "16", value: "87" },
-        { day: "15", value: "83" },
-        { day: "14", value: "82" },
-        { day: "13", value: "83" },
-        { day: "12", value: "78" },
-        { day: "11", value: "77" },
-    ];
-    const [dayCount, setDayCount] = useState(true);
-    const [cards, setCards] = useState(card);
-    const [entryModal, setEntryModal] = useState(false);
+    // Example data - replace with your actual data
+    const [dayCount, setDayCount] = useState(17);
+    const [cards, setCards] = useState([
+        { day: '16', value: '87' },
+        { day: '15', value: '83' },
+        { day: '14', value: '82' },
+        { day: '13', value: '83' },
+        { day: '12', value: '78' },
+        { day: '11', value: '77' },
+    ]);
+    const [buttonText, setButtonText] = useState("Add Entry")
     const [injuryModal, setInjuryModal] = useState(false);
     const [selectedInjury, setSelectedInjury] = useState("");
 
-    const displayEntryModal = () => {
-        setEntryModal(!entryModal);
-    };
-
+    const displayInjuryModal = () => {
+        setInjuryModal(!injuryModal);
+        console.log(injuryModal);
+    }
     const handleInjurySave = (injury) => {
         setSelectedInjury(injury); // Save the selected injury
         setInjuryModal(false); // Close the modal
         console.log("Selected Injury:", injury); // Log the injury
     };
-
+    const addEntry = () => {
+        axios.get('http://localhost:5000/get_rom')
+            .then(((res) => {
+                console.log(res.data);
+                console.log(cards[0])
+                if (cards[0].day === dayCount) {
+                    setCards(cards => [{ day: dayCount, value: res.data.rom }, ...cards.slice(1, -1)]);
+                } else {
+                    setCards(cards => [{ day: dayCount, value: res.data.rom }, ...cards]);
+                    // setDayCount(dayCount + 1);
+                    console.log(cards);
+                    if (cards[0].day === 0) {
+                        setButtonText("Redo Entry");
+                    }
+                }
+            }))
+    }
     return (
         <div className="dashboard-page">
-            <Navbar />
-            {entryModal && <DayEntryModal />}
-            {injuryModal && (
+            <Navbar />            {injuryModal && (
                 <NewInjuryModal
                     onClose={() => setInjuryModal(false)} // Close modal
                     onSave={handleInjurySave} // Save injury
@@ -68,7 +81,7 @@ export default function Dashboard() {
                     <div className="add-entry-button-container">
                         <button
                             className="add-entry-button"
-                            onClick={displayEntryModal}
+                            onClick={addEntry}
                         >
                             Add entry
                         </button>
