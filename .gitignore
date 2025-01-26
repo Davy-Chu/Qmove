@@ -1,2 +1,4 @@
 .env
 Backend/ROM_Captures/
+__pycache__/
+*.pyc
