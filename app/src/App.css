@@ -235,7 +235,8 @@ button {
 button:hover {
     background-color: #1c1c1e; /* Black background on hover */
     color: white; /* White text on hover */
-    border: 1px solid white; /* Optional: Add a white border */
+    /* box-sizing: content-box; */
+    outline: 1px solid white;
 }
 
 /* Center the login form */
