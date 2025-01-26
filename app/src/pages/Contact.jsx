@@ -12,7 +12,7 @@ export default function Contact() {
                 {/* Contact Header */}
                 <div style={{ textAlign: "center", marginBottom: "30px" }}>
                     <h2 style={{ fontSize: "1.2rem", color: "white", letterSpacing: "1px", marginBottom: "5px" }}>
-                        MICHELLE PAIS GROUP
+                        STUDENTS PHYSIO GROUP
                     </h2>
                     <h1 style={{ fontSize: "2.5rem", color: "white", marginBottom: "20px" }}>CONTACT US</h1>
                 </div>
@@ -49,7 +49,7 @@ export default function Contact() {
                             <select style={{ ...inputStyle, padding: "10px" }}>
                                 <option>Select An Interest</option>
                                 <option>General Inquiry</option>
-                                <option>Property Listing</option>
+                                <option>Professional Implementation</option>
                                 <option>Other</option>
                             </select>
                             {/* Static, uneditable textarea */}
@@ -81,28 +81,28 @@ export default function Contact() {
                     </div>
 
                     {/* Contact Details */}
-                    <div style={{ flex: "1", padding: "20px" }}>
+                    <div style={{ flex: "1", padding: "20px", textAlign: "center" }}>
                         <h3 style={{ fontSize: "1.2rem", color: "white", marginBottom: "20px", textAlign: "center" }}>
                             CONTACT DETAILS
                         </h3>
                         <p style={{ marginBottom: "10px", fontSize: "1rem", lineHeight: "1.5", color: "white" }}>
-                            michelle@signaturerealtynj.com <br />
-                            (908) 686-1200
+                            students@qmove.com <br />
+                            (123) 465-7890
                         </p>
                         <p style={{ marginBottom: "10px", fontSize: "1rem", lineHeight: "1.5", color: "white" }}>
-                            <strong>Westfield</strong> <br />
-                            233 North Avenue E. <br />
-                            Westfield, NJ 07090
+                            <strong>Wilfrid Laurier University</strong> <br />
+                            75 University Avenue West <br />
+                            Waterloo, ON N2L 3C5
                         </p>
                         <p style={{ marginBottom: "10px", fontSize: "1rem", lineHeight: "1.5", color: "white" }}>
-                            <strong>Summit</strong> <br />
-                            357 Springfield Ave. <br />
-                            Short Hills, NJ 07901
+                            <strong>Carleton University</strong> <br />
+                            1125 Colonel By Dr. <br />
+                            Ottawa, ON K1S 5B6
                         </p>
                         <p style={{ marginBottom: "10px", fontSize: "1rem", lineHeight: "1.5", color: "white" }}>
-                            <strong>Short Hills Office</strong> <br />
-                            549 Millburn Ave. <br />
-                            Short Hills, NJ 07078
+                            <strong>Queen's University</strong> <br />
+                            99 University Ave. <br />
+                            Kingston, ON K7L 3N6
                         </p>
                     </div>
                 </div>
