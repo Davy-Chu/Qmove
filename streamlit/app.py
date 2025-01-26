@@ -74,6 +74,13 @@ if "selected_day" not in st.session_state:
 st.markdown(
     """
     <style>
+    /* Set the background of the whole page to black */
+    body {
+        background-color: black;
+        color: white;
+    }
+
+    /* Button styling */
     button {
         background-color: #4CAF50;
         border: none;
@@ -88,14 +95,26 @@ st.markdown(
         border-radius: 5px;
         transition: transform 0.2s, box-shadow 0.2s;
     }
+
     button:hover {
         transform: scale(1.05);
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Keep the background of the graph area unaffected */
+    .streamlit-expanderHeader {
+        background-color: transparent;
+    }
+
+    /* Make sure the graph background remains default (white) */
+    .stPlotlyChart, .stMatplotlib {
+        background-color: transparent;
     }
     </style>
     """,
     unsafe_allow_html=True,
 )
+
 
 # Create two columns: left (1.5 part) and right (1.5 part)
 col_left, col_right = st.columns([1.5, 1.5])
@@ -108,7 +127,8 @@ with col_left:
     for i in range(0, len(days), 7):  # Iterate in steps of 7
         cols = st.columns(7)  # Create 7 columns for buttons
         for j, day in enumerate(days[i : i + 7]):  # Loop through the 7 days for this row
-            if cols[j].button(day, key=day):
+            day_number = f"Day {j + 1}"  # Create a label like "Day 1", "Day 2", etc.
+            if cols[j].button(day_number, key=day_number):  # Use the new label as button text
                 st.session_state.selected_day = day  # Update the selected day
 
     st.write(f"**Selected Day:** {st.session_state.selected_day}")
