@@ -7,7 +7,7 @@ export default function Dashboard() {
     // Example data - replace with your actual data
     const [dayCount, setDayCount] = useState(17);
     const [cards, setCards] = useState([
-        { day: '16', value: '87', description: 'Good recovery progress noted.' },
+        { day: '16', value: '87', description: 'My arm\'s range of motion is 106 degrees. Suggest some exercises or advice to improve my shoulder flexibility and mobility.' },
         { day: '15', value: '83', description: 'Slight improvement from the previous day.' },
         { day: '14', value: '82', description: 'Consistent performance overall.' },
         { day: '13', value: '83', description: 'Good stability in range of motion.' },

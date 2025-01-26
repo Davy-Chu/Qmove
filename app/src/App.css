@@ -28,12 +28,14 @@
 }
 
 .dashboard-card {
-    min-width: 200px;  /* Add minimum width to cards */
+    /*min-width: 200px;  /* Add minimum width to cards */
     padding: 16px;
     background-color: #dcdcdc;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     flex-shrink: 0;  /* Prevent cards from shrinking */
+    width: 300px; /* Fixed width for all cards */
+    height: 400px; /* Fixed height for all cards */
 }
 .dashboard-card img {
     height:160px;
@@ -482,3 +484,16 @@ form label {
 body {
     overflow-y: auto; /* Ensure only the page scrolls */
 }
+
+
+.card-description {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 10px;
+    text-align: center;
+    overflow: hidden;
+    display: -webkit-box;       /* Enables the line clamp */
+    -webkit-line-clamp: 6;      /* Number of lines to show */
+    -webkit-box-orient: vertical; /* Box orientation */
+}
+
