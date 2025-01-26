@@ -63,24 +63,39 @@ def save_to_mongodb(day, rom, description, image_path):
 @app.route('/get_rom', methods=['GET', 'POST'])
 def get_rom():
     try:
+        # Track arm ROM and image capture
         rom, image_path = ArmTracking.track_arm_rom()
+        
         if rom is not None:
+            # Generate prompt for LLM based on ROM
             prompt = generate_prompt(rom)
+            
+            # Query LLM for response
             llm_response = query_llm(prompt)
+            
+            # Get the next day value
             day = f"{len(list(collection.find({}))) + 1}"
-            save_to_mongodb(day, rom, llm_response, image_path)
-            return jsonify({
-                "rom": rom,
-                "prompt": prompt,
-                "llm_response": llm_response,
-                "image": image_path,
+            
+            # Save data to MongoDB
+            image_id = save_to_mongodb(day, rom, llm_response, image_path)
+            
+            # Prepare the document format to match /get_data structure
+            document = {
+                "_id": str(image_id),
                 "day": day,
-                "status": "Data saved to MongoDB."
-            })
+                "rom": rom,
+                "description": llm_response,
+                "image": image_path  # Return the image path (Base64 or URL can be handled separately in frontend)
+            }
+
+            # Return the data in the same format as /get_data
+            return jsonify(document)
         else:
             return jsonify({"error": "No ROM detected."})
+    
     except Exception as e:
-        return jsonify({"error": str(e)})
+        return jsonify({"error": str(e)}), 500
+
 @app.route('/get_images/<filename>', methods=['GET'])
 def get_images(filename):
     IMAGE_FOLDER = os.path.join(os.path.dirname(__file__), "ROM_Captures")
@@ -88,6 +103,18 @@ def get_images(filename):
         return send_from_directory(IMAGE_FOLDER, filename)
     except Exception as e:
         return {"error": f"File not found: {e}"}, 404
+@app.route('/get_data', methods=['GET'])
+def get_data():
+    try:
+        # Fetch all documents in the collection
+        documents = list(collection.find({}))
+        
+        # Convert MongoDB ObjectId to string (needed for JSON serialization)
+        for doc in documents:
+            doc['_id'] = str(doc['_id'])
 
+        return jsonify(documents)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)

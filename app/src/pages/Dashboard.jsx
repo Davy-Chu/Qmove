@@ -2,9 +2,10 @@ import Navbar from '../components/Navbar';
 import Daycard from '../components/Daycard';
 import NewInjuryModal from '../components/NewInjuryModal';
 import axios from "axios";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 export default function Dashboard() {
     // Example data - replace with your actual data
+    
     const [dayCount, setDayCount] = useState(1);
     const [cards, setCards] = useState([
         { day: '16', value: '87', description: 'Good recovery progress noted.', image: 'Qhacks.jpg' },
@@ -17,7 +18,19 @@ export default function Dashboard() {
     const [buttonText, setButtonText] = useState("Add Entry")
     const [injuryModal, setInjuryModal] = useState(false);
     const [selectedInjury, setSelectedInjury] = useState("");
-
+    useEffect (() => {
+        // setTimeout(() => {
+            axios.get("http://localhost:5000/get_data").then((res) => {
+                console.log(res.data);
+                let processedData = res.data.map((raw) => {
+                    return {day: raw.day, value: raw.rom, description:raw.description, image: raw.image}
+                })
+                
+                setCards(processedData);
+                console.log(processedData)
+            })
+        // },1000)
+    }, [])
     const displayInjuryModal = () => {
         setInjuryModal(!injuryModal);
         console.log(injuryModal);
@@ -28,8 +41,7 @@ export default function Dashboard() {
         console.log("Selected Injury:", injury); // Log the injury
     };
     const addEntry = () => {
-        axios.get('http://localhost:5000/get_rom')
-            .then(((res) => {
+        axios.get('http://localhost:5000/get_rom').then((res) => {
                 console.log(res.data);
                 console.log(cards[0])
                 const img = res.data.image.split("\\")[1];
@@ -45,7 +57,7 @@ export default function Dashboard() {
                         setButtonText("Redo Entry");
                     }
                 }
-            }))
+            })
     }
     return (
         <div className="dashboard-page">
