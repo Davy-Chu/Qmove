@@ -1,0 +1,2 @@
+1. Camera needs to be visible when adding entry on dashboard
+2. About page needs to be filled out properly
