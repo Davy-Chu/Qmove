@@ -17,6 +17,11 @@ CORS(app)
 uri = os.getenv("MONGODB_CONNECTION_STRING")
 # Create a new client and connect to the server
 client = MongoClient(uri, server_api=ServerApi('1'))
+db = client['db']
+collection_name = "cards"  # Name of the new collection
+if collection_name not in db.list_collection_names():
+    db.create_collection(collection_name)  # Create the collection if it doesn't already exist
+card_collection = db[collection_name]
 # Send a ping to confirm a successful connection
 try:
     client.admin.command('ping')
@@ -36,7 +41,7 @@ def query_llm(prompt):
     """
     try:
         response = openai_client.chat.completions.create(
-            model="gpt-4",  # Use "gpt-4" if available
+            model="gpt-4",  
             messages=[
                 {"role": "system", "content": "You are a physiotherapy assistant."},
                 {"role": "user", "content": prompt}
@@ -48,8 +53,10 @@ def query_llm(prompt):
         return response.choices[0].message.content
     except Exception as e:
         return f"Error querying LLM: {e}"
-
-@app.route('/get_rom', methods=['GET'])
+def addCard(rom, desc, day):
+    card = { 'rom': rom, 'desc': desc, 'day':day}
+    return card_collection.insert_one(card)
+@app.route('/get_rom', methods=['GET', 'POST'])
 def get_rom():
     try:
         # Call the track_arm_rom function from ArmTracker.py
@@ -58,6 +65,8 @@ def get_rom():
             # Generate a prompt and query the LLM
             prompt = generate_prompt(rom)
             llm_response = query_llm(prompt)
+            # addCard(rom, llm_response, 13)
+            print(db.cards)
             return jsonify({
                 "rom": rom,
                 "prompt": prompt,
