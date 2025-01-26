@@ -159,5 +159,3 @@ def track_arm_rom():
     cv2.destroyAllWindows()
     print("Failed to capture ROM.")
     return None
-
-# remove this after
