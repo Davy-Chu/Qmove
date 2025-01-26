@@ -7,12 +7,12 @@ export default function Dashboard() {
     // Example data - replace with your actual data
     const [dayCount, setDayCount] = useState(17);
     const [cards, setCards] = useState([
-        { day: '16', value: '87' },
-        { day: '15', value: '83' },
-        { day: '14', value: '82' },
-        { day: '13', value: '83' },
-        { day: '12', value: '78' },
-        { day: '11', value: '77' },
+        { day: '16', value: '87', description: 'Good recovery progress noted.' },
+        { day: '15', value: '83', description: 'Slight improvement from the previous day.' },
+        { day: '14', value: '82', description: 'Consistent performance overall.' },
+        { day: '13', value: '83', description: 'Good stability in range of motion.' },
+        { day: '12', value: '78', description: 'Minor stiffness observed.' },
+        { day: '11', value: '77', description: 'Initial recovery phase.' },
     ]);
     const [buttonText, setButtonText] = useState("Add Entry")
     const [injuryModal, setInjuryModal] = useState(false);
@@ -93,6 +93,7 @@ export default function Dashboard() {
                                 title={card.day}
                                 value={card.value}
                                 image="Qhacks.jpg"
+                                description={card.description} // Pass description here
                             />
                         ))}
                     </div>

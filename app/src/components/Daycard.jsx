@@ -11,6 +11,7 @@ export default function Daycard(props) {
                 className="card-image"
             />
             <p className="card-value">ROM: {props.value}</p>
+            <p className="card-description">{props.description}</p>
         </div>
     );
 }
