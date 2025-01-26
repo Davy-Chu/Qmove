@@ -170,7 +170,7 @@
 .nav-link:hover {
     color: #1F2937;
 }
-.
+
 /* Responsive Design 
 @media (max-width: 480px) {
     .navbar {
@@ -183,15 +183,29 @@
 }*/
 
 /* Input fields styling */
-input {
-    background-color: #333; /* Dark gray background for inputs */
-    color: white; /* White text inside inputs */
-    border: 1px solid #555; /* Border color to match the dark theme */
-    border-radius: 4px; /* Slightly rounded corners */
-    padding: 10px; /* Padding inside inputs */
-    width: 300px; /* Consistent input width */
-    margin-bottom: 15px; /* Spacing between inputs */
+/* Styling for Login Input Fields */
+.login-input {
+    background-color: #333; /* Dark gray background */
+    color: white; /* White text */
+    border: 1px solid #555; /* Solid border */
+    border-radius: 4px; /* Rounded corners */
+    padding: 10px; /* Spacing inside the input */
+    width: 300px; /* Fixed width */
+    margin: 10px auto; /* Spacing between inputs and center alignment */
+    display: block; /* Ensures the inputs are block elements */
 }
+
+/* Hover and Focus Effects */
+.login-input:focus {
+    outline: none; /* Remove default outline */
+    border-color: #777; /* Slightly lighter border on focus */
+    box-shadow: 0 0 5px #777; /* Soft glow effect */
+}
+
+
+
+
+
 
 body{
     background-color: #1c1c1e;
@@ -218,7 +232,7 @@ button {
 
 /* Button hover effect */
 button:hover {
-    background-color: black; /* Black background on hover */
+    background-color: #1c1c1e; /* Black background on hover */
     color: white; /* White text on hover */
     border: 1px solid white; /* Optional: Add a white border */
 }
@@ -465,4 +479,18 @@ form label {
 
 .submit-button:hover {
     background: #3a5fcc; /* Darker blue on hover */
+}
+
+
+/* i-frame stuff*/
+
+.streamlit-container iframe {
+    width: 100%; /* Full width */
+    height: 100vh; /* Full viewport height */
+    border: none; /* Remove any border */
+    overflow: hidden; /* Prevent internal scrolling */
+}
+
+body {
+    overflow-y: auto; /* Ensure only the page scrolls */
 }

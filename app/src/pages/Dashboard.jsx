@@ -13,7 +13,7 @@ export default function Dashboard() {
         { day: "12", value: "78" },
         { day: "11", value: "77" },
     ];
-    const [dayCount, setDayCount] = useState(0);
+    const [dayCount, setDayCount] = useState(true);
     const [cards, setCards] = useState(card);
     const [entryModal, setEntryModal] = useState(false);
     const [injuryModal, setInjuryModal] = useState(false);
@@ -83,7 +83,7 @@ export default function Dashboard() {
                             />
                         ))}
                     </div>
-                    <div className="stats-container">
+{/*                 <div className="stats-container">
                         <div className="stats-panel">
                             <h3 className="stats-title">Usage Statistics</h3>
                             <div className="chart-container">
@@ -96,6 +96,19 @@ export default function Dashboard() {
                                 <p className="placeholder-text">Chart placeholder</p>
                             </div>
                         </div>
+                    </div>*/}
+                    <div className="streamlit-container">
+                        <iframe
+                            src="http://localhost:8501" // Replace with your Streamlit URL
+                            title="Streamlit App"
+                            scrolling="no" // Disable iframe scrolling
+                            style={{
+                                width: "100%",
+                                height: "100vh",
+                                border: "none",
+                                marginTop: "20px",
+                            }}
+                        />
                     </div>
                 </div>
             )}

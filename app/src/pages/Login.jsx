@@ -267,24 +267,24 @@ export default function Login() {
             <div className="login" style={{ textAlign: "center", marginTop: "40px" }}>
                 <h1>Login</h1>
                 <input
+                    className="login-input"
                     type="email"
                     placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    style={{ display: "block", margin: "10px auto", padding: "10px", width: "300px" }}
                 />
                 <input
+                    className="login-input"
                     type="password"
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    style={{ display: "block", margin: "10px auto", padding: "10px", width: "300px" }}
                 />
                 <button
                     onClick={login}
-                    style={{ padding: "10px 20px", marginTop: "20px", cursor: "pointer" }}
+                    className="login-button"
                 >
-                    Log in
+                        Log in
                 </button>
             </div>
         </div>
