@@ -171,7 +171,7 @@
     color: #1F2937;
 }
 .
-/* Responsive Design */
+/* Responsive Design 
 @media (max-width: 480px) {
     .navbar {
         padding: 1rem;
@@ -180,7 +180,7 @@
     .nav-right {
         gap: 1rem;
     }
-}
+}*/
 
 /* Input fields styling */
 input {
