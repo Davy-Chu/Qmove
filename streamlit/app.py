@@ -17,7 +17,8 @@ collection = db["rom_data"]  # Replace with your collection name
 
 # Fetch data from MongoDB
 def fetch_data_from_mongodb():
-    data = list(collection.find({}, {"_id": 0}))  # Fetch all documents except `_id`
+    # Fetch only "day", "rom", and "description" fields, excluding `_id`
+    data = list(collection.find({}, {"_id": 0, "day": 1, "rom": 1, "description": 1}))
     return pd.DataFrame(data)
 
 # Load data into a Pandas DataFrame
@@ -38,7 +39,7 @@ data["day_index"] = data["day"].str.extract(r'(\d+)').astype(int)  # Extract day
 data = data.sort_values(by="day_index")
 
 # Compute ROM Gained
-data["rom_gained"] = data["rom"].diff().fillna(0)  # Compute ROM gained between consecutive days
+data["rom_gained"] = data["rom"].diff().fillna(data["rom"])  # Use the ROM value for Day 1 instead of 0 # Compute ROM gained between consecutive days
 
 # Use wide layout for more space
 st.set_page_config(layout="wide", page_title="ROM Tracker (Matplotlib)")
@@ -134,13 +135,6 @@ with col_right:
     ax.set_title("ROM Gained Over Time")
     ax.grid(True)
     ax.legend()
-
-    # Animation function
-    def update(frame):
-        ax.lines[0].set_data(days[: frame + 1], rom_gained[: frame + 1])
-        return ax.lines
-
-    ani = FuncAnimation(fig, update, frames=len(days), interval=200, repeat=False)
 
     # Render the Matplotlib figure in Streamlit
     st.pyplot(fig)
