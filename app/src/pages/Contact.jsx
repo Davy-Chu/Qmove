@@ -46,34 +46,32 @@ export default function Contact() {
                                 placeholder="Phone"
                                 style={inputStyle}
                             />
-                            <select style={{ ...inputStyle, padding: "10px" }}>
+                            <select style={{ ...inputStyle}}>
                                 <option>Select An Interest</option>
                                 <option>General Inquiry</option>
                                 <option>Professional Implementation</option>
                                 <option>Other</option>
                             </select>
-                            {/* Static, uneditable textarea */}
                             <textarea
                                 placeholder="Message"
                                 rows="4"
-                                readOnly
                                 style={{
                                     ...inputStyle,
                                     height: "100px",
                                     resize: "none", // Prevent resizing
                                     backgroundColor: "#f0f0f0", // Light gray background
-                                    cursor: "not-allowed" // Indicate it's uneditable
                                 }}
                             />
-                            <button style={{
+                            <button className="submit-inquiry" style={{
                                 backgroundColor: "#000",
                                 color: "#fff",
                                 padding: "10px 20px",
                                 border: "none",
-                                borderRadius: "4px",
+                                borderRadius: "12px",
                                 cursor: "pointer",
                                 width: "100%",
-                                marginTop: "15px"
+                                marginTop: "15px",
+                                transition: "background-color 0.3s ease"
                             }}>
                                 Submit
                             </button>
@@ -113,16 +111,16 @@ export default function Contact() {
 
 const inputStyle = {
     display: "block",
-    width: "85%", // Slightly reduced width for better spacing
-    maxWidth: "425px", // Ensures consistent width
-    padding: "12px", // Reduced padding for better fit
-    margin: "10px auto", // Centers the input fields and adds spacing
+    width: "85%", // Consistent width for all inputs
+    maxWidth: "425px", // Uniform maximum width
+    padding: "12px", // Consistent padding
+    margin: "10px auto", // Centers the fields
     border: "1px solid #ddd",
     borderRadius: "4px",
     fontSize: "1rem",
     fontFamily: "Arial, sans-serif",
     lineHeight: "1.5", // Improves readability
-    backgroundColor: "#f5f5f5", // Light gray background for inputs
+    backgroundColor: "#f5f5f5", // Light gray background
 };
 
 

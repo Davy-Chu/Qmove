@@ -1,3 +1,33 @@
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1c1c1e;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #3a3a3a;
+    border-radius: 5px;
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+    background: #7e7d7d;
+}
+
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+
 /* Dashboard Layout */
 .dashboard-container {
     background: linear-gradient(to bottom,#1c1c1e ,#0F1117,#0F1117,#0F1117,#0F1117,#0F1117,#0F1117);
@@ -135,7 +165,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 2rem;
+    padding: 0 1.5rem;
     background-color: #FFFFF0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     /* width:100%; */
@@ -167,7 +197,7 @@
     color: #374151;
     font-weight: 500;
     transition: color 0.2s ease;
-    height:40px;
+    height: 47px;
     min-width:80px;
     width: 100%; /* Set width to fill the container */
     text-align: center;
@@ -510,3 +540,18 @@ body {
     -webkit-box-orient: vertical; /* Box orientation */
 }
 
+.tech{
+    text-align: left;
+}
+
+.about-section{
+    display:flex;
+    align-items:center;
+    flex-direction: column;
+    margin-top:10px;
+}
+
+.submit-inquiry:hover {
+    box-shadow: 0 0 11px rgba(0, 0, 0, 0.3);
+    background-color: #6d6767;
+}
