@@ -3,9 +3,11 @@ from flask_cors import CORS
 import ArmTracking
 import openai
 import os
+import base64
 from dotenv import load_dotenv
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
+
 # Load environment variables from .env file
 load_dotenv()
 
@@ -17,12 +19,10 @@ CORS(app)
 uri = os.getenv("MONGODB_CONNECTION_STRING")
 # Create a new client and connect to the server
 client = MongoClient(uri, server_api=ServerApi('1'))
-db = client['db']
-collection_name = "cards"  # Name of the new collection
-if collection_name not in db.list_collection_names():
-    db.create_collection(collection_name)  # Create the collection if it doesn't already exist
-card_collection = db[collection_name]
-# Send a ping to confirm a successful connection
+db = client["rehab_data"]
+collection = db["rom_data"]
+
+# Ensure MongoDB connection
 try:
     client.admin.command('ping')
     print("Pinged your deployment. You successfully connected to MongoDB!")
@@ -30,18 +30,12 @@ except Exception as e:
     print(e)
 
 def generate_prompt(rom):
-    """
-    Generate a prompt based on the ROM value.
-    """
     return f"My arm's range of motion is {rom} degrees. Suggest some exercises or advice to improve my shoulder flexibility and mobility based on my current range of motion."
 
 def query_llm(prompt):
-    """
-    Query the LLM (GPT) with the given prompt.
-    """
     try:
         response = openai_client.chat.completions.create(
-            model="gpt-4",  
+            model="gpt-4",
             messages=[
                 {"role": "system", "content": "You are a physiotherapy assistant."},
                 {"role": "user", "content": prompt}
@@ -49,28 +43,36 @@ def query_llm(prompt):
             temperature=0.7,
             max_tokens=150
         )
-        # Extract the assistant's reply
         return response.choices[0].message.content
     except Exception as e:
         return f"Error querying LLM: {e}"
-def addCard(rom, desc, day):
-    card = { 'rom': rom, 'desc': desc, 'day':day}
-    return card_collection.insert_one(card)
-@app.route('/get_rom', methods=['GET', 'POST'])
+
+def save_to_mongodb(day, rom, description, image_path):
+    with open(image_path, "rb") as image_file:
+        encoded_image = base64.b64encode(image_file.read()).decode("utf-8")
+    document = {
+        "day": day,
+        "rom": rom,
+        "description": description,
+        "image": encoded_image
+    }
+    result = collection.insert_one(document)
+    return result.inserted_id
+
+@app.route('/get_rom', methods=['GET'])
 def get_rom():
     try:
-        # Call the track_arm_rom function from ArmTracker.py
-        rom = ArmTracking.track_arm_rom()
+        rom, image_path = ArmTracking.track_arm_rom()
         if rom is not None:
-            # Generate a prompt and query the LLM
             prompt = generate_prompt(rom)
             llm_response = query_llm(prompt)
-            # addCard(rom, llm_response, 13)
-            print(db.cards)
+            day = f"Day {collection.count_documents({}) + 1}"
+            save_to_mongodb(day, rom, llm_response, image_path)
             return jsonify({
                 "rom": rom,
                 "prompt": prompt,
-                "llm_response": llm_response
+                "llm_response": llm_response,
+                "status": "Data saved to MongoDB."
             })
         else:
             return jsonify({"error": "No ROM detected."})

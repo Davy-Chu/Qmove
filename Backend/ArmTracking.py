@@ -17,6 +17,12 @@ def calculate_angle(a, b, c):
         angle = 360.0 - angle
     return angle
 
+def get_next_filename(folder, prefix="image", extension=".jpg"):
+    existing_files = [f for f in os.listdir(folder) if f.startswith(prefix) and f.endswith(extension)]
+    numbers = [int(f[len(prefix):-len(extension)]) for f in existing_files if f[len(prefix):-len(extension)].isdigit()]
+    next_number = max(numbers) + 1 if numbers else 1
+    return os.path.join(folder, f"{prefix}{next_number}{extension}")
+
 def track_arm_rom():
     highest_angle = 0
     hold_start_time = None
@@ -41,10 +47,11 @@ def track_arm_rom():
             print("Exiting during setup.")
             cap.release()
             cv2.destroyAllWindows()
-            return None
+            return None, None
 
     print("Tracking started.")
     final_angle = None
+    saved_file_path = None
 
     while cap.isOpened():
         ret, frame = cap.read()
@@ -77,16 +84,15 @@ def track_arm_rom():
                     final_angle = int(highest_angle)
                     print(f"ROM: {final_angle}° from starting position.")
 
-                    # Take a photo and save it
-                    timestamp = time.strftime("%Y%m%d_%H%M%S")
-                    filename = f"ROM_{final_angle}_degrees_{timestamp}.jpg"
-                    file_path = os.path.join(output_folder, filename)
-                    cv2.imwrite(file_path, frame)
-                    print(f"Photo saved: {file_path}")
+                    # Determine the next filename for the image
+                    filename = get_next_filename(output_folder)
+                    cv2.imwrite(filename, frame)
+                    print(f"Photo saved: {filename}")
 
+                    saved_file_path = filename
                     cap.release()
                     cv2.destroyAllWindows()
-                    return final_angle
+                    return final_angle, saved_file_path
             else:
                 hold_start_time = None
 
@@ -102,9 +108,9 @@ def track_arm_rom():
             print("Exiting program (ESC).")
             cap.release()
             cv2.destroyAllWindows()
-            return None
+            return None, None
 
     cap.release()
     cv2.destroyAllWindows()
     print("Failed to capture ROM.")
-    return None
+    return None, None
