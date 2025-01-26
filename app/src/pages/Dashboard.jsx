@@ -32,10 +32,13 @@ export default function Dashboard() {
             .then(((res) => {
                 console.log(res.data);
                 console.log(cards[0])
+                const img = res.data.image.split("\\")[1];
+                // console.log(res.data.image.split('/'));
+                console.log(img)
                 if (cards[0].day === dayCount) {
-                    setCards(cards => [{ day: dayCount, value: res.data.rom, image: res.data.image }, ...cards.slice(1, -1)]);
+                    setCards(cards => [{ day: dayCount, value: res.data.rom, image: img }, ...cards.slice(1, -1)]);
                 } else {
-                    setCards(cards => [{ day: dayCount, value: res.data.rom, image: res.data.image }, ...cards]);
+                    setCards(cards => [{ day: dayCount, value: res.data.rom, image: img }, ...cards]);
                     // setDayCount(dayCount + 1);
                     console.log(cards);
                     if (cards[0].day === 0) {

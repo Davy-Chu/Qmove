@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-from matplotlib.animation import FuncAnimation
 from pymongo import MongoClient
 import os
 from dotenv import load_dotenv
@@ -12,14 +11,29 @@ MONGODB_URI = os.getenv("MONGODB_CONNECTION_STRING")
 
 # Connect to MongoDB
 client = MongoClient(MONGODB_URI)
-db = client["rehab_data"]  # Replace with your database name
-collection = db["rom_data"]  # Replace with your collection name
+db = client["rehab_data"]
+collection = db["rom_data"]
+try:
+    client.admin.command("ping")
+    print("Pinged your deployment. You successfully connected to MongoDB!")
+except Exception as e:
+    print(e)
+print(os.getenv("MONGODB_URI"))
+print("Collections in rehab_data:", db.list_collection_names())  # Check collections
 
 # Fetch data from MongoDB
 def fetch_data_from_mongodb():
-    # Fetch only "day", "rom", and "description" fields, excluding `_id`
-    data = list(collection.find({}, {"_id": 0, "day": 1, "rom": 1, "description": 1}))
-    return pd.DataFrame(data)
+    data = []
+    cursor = collection.find({})
+    for doc in cursor:
+        print(doc)
+    for document in collection.find({}, {"_id": 0, "day": 1, "rom": 1, "description": 1}):
+        data.append({
+            "day": document.get("day"),
+            "rom": document.get("rom"),
+            "description": document.get("description"),
+        })
+    return pd.DataFrame(data)  # Convert to Pandas DataFrame
 
 # Load data into a Pandas DataFrame
 data = fetch_data_from_mongodb()
@@ -35,11 +49,14 @@ if not all(col in data.columns for col in ["day", "rom", "description"]):
     st.stop()
 
 # Sort data by day
-data["day_index"] = data["day"].str.extract(r'(\d+)').astype(int)  # Extract day number for sorting
+data["day_index"] = data["day"].str.extract(r"(\d+)").astype(int)  # Extract day number for sorting
 data = data.sort_values(by="day_index")
 
 # Compute ROM Gained
-data["rom_gained"] = data["rom"].diff().fillna(data["rom"])  # Use the ROM value for Day 1 instead of 0 # Compute ROM gained between consecutive days
+data["rom_gained"] = data["rom"].fillna(0)  # Use the ROM value for Day 1 instead of 0
+
+# Interpolate missing values for smoother plotting
+data["rom_gained_interpolated"] = data["rom_gained"].interpolate(method="linear")
 
 # Use wide layout for more space
 st.set_page_config(layout="wide", page_title="ROM Tracker (Matplotlib)")
@@ -47,6 +64,7 @@ st.set_page_config(layout="wide", page_title="ROM Tracker (Matplotlib)")
 # Get days and ROM values
 days = data["day"].tolist()
 rom_gained = data["rom_gained"].tolist()
+rom_gained_interpolated = data["rom_gained_interpolated"].tolist()
 
 # Initialize state to track selected day
 if "selected_day" not in st.session_state:
@@ -101,19 +119,19 @@ with col_right:
     # Create a Matplotlib figure
     fig, ax = plt.subplots(figsize=(8, 4))
 
-    # Plot ROM gained over time with a line + markers
+    # Plot ROM gained over time with interpolated data
     ax.plot(
         days,
-        rom_gained,
+        rom_gained_interpolated,
         marker="o",
-        label="ROM Gained Over Time",
+        label="ROM Gained Over Time (Interpolated)",
         color="blue",
     )
 
     # Highlight the selected day
     selected_day = st.session_state.selected_day
     selected_rom_gained = data.loc[data["day"] == selected_day, "rom_gained"].iloc[0]
-    selected_day_index = days.index(selected_day) + 1  # Day index (1-based)
+    selected_day_index = days.index(selected_day)  # Day index (1-based)
 
     ax.scatter(selected_day_index, selected_rom_gained, color="red", s=100, zorder=3)
     ax.text(
@@ -127,8 +145,8 @@ with col_right:
     )
 
     # Adjust the x-axis to display "Day 1", "Day 2", etc.
-    ax.set_xticks(range(1, len(days) + 1))
-    ax.set_xticklabels(days, rotation=45, ha="right", fontsize=8)
+    ax.set_xticks(range(len(days)))  # Set ticks based on the number of days
+    ax.set_xticklabels(days, rotation=45, ha="right", fontsize=8)  # Show the day labels on x-axis
 
     ax.set_xlabel("Day")
     ax.set_ylabel("ROM Gained (degrees)")

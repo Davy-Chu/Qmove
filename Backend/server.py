@@ -28,6 +28,7 @@ try:
     print("Pinged your deployment. You successfully connected to MongoDB!")
 except Exception as e:
     print(e)
+print("Collections in rehab_data:", db.list_collection_names())  # Check collections
 
 def generate_prompt(rom):
     return f"My arm's range of motion is {rom} degrees. Suggest some exercises or advice to improve my shoulder flexibility and mobility based on my current range of motion."
