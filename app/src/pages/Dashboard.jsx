@@ -16,17 +16,17 @@ export default function Dashboard() {
     ]);
     const [buttonText, setButtonText] = useState("Add Entry")
     const [injuryModal, setInjuryModal] = useState(false);
+    const [selectedInjury, setSelectedInjury] = useState("");
+
     const displayInjuryModal = () => {
         setInjuryModal(!injuryModal);
         console.log(injuryModal);
     }
-    const check = () => {
-        console.log(cards)
-    }
-    const getText = () => {
-        console.log(cards[0].day);
-        return cards[0].day === dayCount ? "Redo Entry" : "Add Entry";
-    }
+    const handleInjurySave = (injury) => {
+        setSelectedInjury(injury); // Save the selected injury
+        setInjuryModal(false); // Close the modal
+        console.log("Selected Injury:", injury); // Log the injury
+    };
     const addEntry = () => {
         axios.get('http://localhost:5000/get_rom')
             .then(((res) => {
@@ -42,14 +42,16 @@ export default function Dashboard() {
                         setButtonText("Redo Entry");
                     }
                 }
-
-                console.log(cards);
             }))
     }
     return (
         <div className="dashboard-page">
-            <Navbar onClick={check} />
-            {injuryModal && <NewInjuryModal />}
+            <Navbar />            {injuryModal && (
+                <NewInjuryModal
+                    onClose={() => setInjuryModal(false)} // Close modal
+                    onSave={handleInjurySave} // Save injury
+                />
+            )}
             {dayCount <= 0 && (
                 <div className="empty-state">
                     <div className="empty-state-content">
@@ -62,52 +64,72 @@ export default function Dashboard() {
                         <p className="empty-state-message">
                             Have a new injury? Add the details below!
                         </p>
-                        <button className="empty-state-button" onClick={displayInjuryModal}>
-                            Add new injury          </button>
+                        <button
+                            className="empty-state-button"
+                            onClick={() => setInjuryModal(true)}
+                        >
+                            Add new entry
+                        </button>
                     </div>
                 </div>
             )}
-            {dayCount > 0 && (<div className="dashboard-container">
-
-                {/* Days Counter Header */}
-                <div className="days-header">
-                    <h2>Last {dayCount} Days...</h2>
-                </div>
-                {/* Add Injury Button */}
-                <div className="add-entry-button-container">
-                    <button className="add-entry-button" onClick={addEntry}> {buttonText}   </button>
-                </div>
-                {/* Cards Row */}
-                <div className="cards-grid">
-                    {cards.map((card, index) => (
-                        < Daycard
-                            key={index}
-                            title={card.day}
-                            value={card.value}
-                            image="Qhacks.jpg"
+            {dayCount > 0 && (
+                <div className="dashboard-container">
+                    <div className="days-header">
+                        <h2>Last {dayCount} Days...</h2>
+                    </div>
+                    <div className="add-entry-button-container">
+                        <button
+                            className="add-entry-button"
+                            onClick={addEntry}
+                        >
+                            Add entry
+                        </button>
+                    </div>
+                    <div className="cards-grid">
+                        {cards.map((card, index) => (
+                            <Daycard
+                                key={index}
+                                title={card.day}
+                                value={card.value}
+                                image="Qhacks.jpg"
+                            />
+                        ))}
+                    </div>
+{/*                 <div className="stats-container">
+                        <div className="stats-panel">
+                            <h3 className="stats-title">Usage Statistics</h3>
+                            <div className="chart-container">
+                                <p className="placeholder-text">Chart placeholder</p>
+                            </div>
+                        </div>
+                        <div className="stats-panel">
+                            <h3 className="stats-title">Performance Metrics</h3>
+                            <div className="chart-container">
+                                <p className="placeholder-text">Chart placeholder</p>
+                            </div>
+                        </div>
+                    </div>*/}
+                    <div className="streamlit-container">
+                        <iframe
+                            src="http://localhost:8501" // Replace with your Streamlit URL
+                            title="Streamlit App"
+                            scrolling="no" // Disable iframe scrolling
+                            style={{
+                                width: "100%",
+                                height: "100vh",
+                                border: "none",
+                                marginTop: "20px",
+                            }}
                         />
-                    ))}
-                </div>
-
-                {/* Statistics and Graphs Section */}
-                <div className="stats-container">
-                    <div className="stats-panel">
-                        <h3 className="stats-title">Usage Statistics</h3>
-                        <div className="chart-container">
-                            {/* Add your chart component here */}
-                            <p className="placeholder-text">Chart placeholder</p>
-                        </div>
-                    </div>
-                    <div className="stats-panel">
-                        <h3 className="stats-title">Performance Metrics</h3>
-                        <div className="chart-container">
-                            {/* Add your chart component here */}
-                            <p className="placeholder-text">Chart placeholder</p>
-                        </div>
                     </div>
                 </div>
-            </div>)}
-
+            )}
+            {selectedInjury && (
+                <div className="injury-summary">
+                    <h3>Selected Injury: {selectedInjury}</h3>
+                </div>
+            )}
         </div>
     );
 }

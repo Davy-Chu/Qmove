@@ -1,10 +1,10 @@
-/* App.css */
 /* Dashboard Layout */
 .dashboard-container {
+    background: linear-gradient(to bottom,#1c1c1e ,#0F1117,#0F1117,#0F1117,#0F1117,#0F1117,#0F1117);
     padding: 24px;
+    
 }
 
-/* Days Header */
 .days-header {
     margin-bottom: 24px;
 }
@@ -37,9 +37,6 @@
 }
 .dashboard-card img {
     height:160px;
-    /* width: 100%;
-    height: 100%; */
-    /* object-fit: cover; */
 }
 
 /* Optional: Hide scrollbar but keep functionality */
@@ -136,8 +133,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 2rem;
-    background-color: #dcdcdc;
+    padding: .01rem 2rem;
+    background-color: #FFFFF0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     /* width:100%; */
     max-width: 100vw;
@@ -171,27 +168,34 @@
 .nav-link:hover {
     color: #1F2937;
 }
-.
-/* Responsive Design */
-@media (max-width: 480px) {
-    .navbar {
-        padding: 1rem;
-    }
-    
-    .nav-right {
-        gap: 1rem;
-    }
-}
 
 /* Input fields styling */
-input {
-    background-color: #333; /* Dark gray background for inputs */
-    color: white; /* White text inside inputs */
-    border: 1px solid #555; /* Border color to match the dark theme */
-    border-radius: 4px; /* Slightly rounded corners */
-    padding: 10px; /* Padding inside inputs */
-    width: 300px; /* Consistent input width */
-    margin-bottom: 15px; /* Spacing between inputs */
+/* Styling for Login Input Fields */
+.login-input {
+    background-color: #333; /* Dark gray background */
+    color: white; /* White text */
+    border: 1px solid #555; /* Solid border */
+    border-radius: 4px; /* Rounded corners */
+    padding: 10px; /* Spacing inside the input */
+    width: 300px; /* Fixed width */
+    margin: 10px auto; /* Spacing between inputs and center alignment */
+    display: block; /* Ensures the inputs are block elements */
+}
+
+/* Hover and Focus Effects */
+.login-input:focus {
+    outline: none; /* Remove default outline */
+    border-color: #777; /* Slightly lighter border on focus */
+    box-shadow: 0 0 5px #777; /* Soft glow effect */
+}
+
+
+
+
+
+
+body{
+    background-color: #1c1c1e;
 }
 
 /* Input fields focus effect */
@@ -215,7 +219,7 @@ button {
 
 /* Button hover effect */
 button:hover {
-    background-color: black; /* Black background on hover */
+    background-color: #1c1c1e; /* Black background on hover */
     color: white; /* White text on hover */
     border: 1px solid white; /* Optional: Add a white border */
 }
@@ -224,6 +228,7 @@ button:hover {
 .login {
     text-align: center;
     padding: 20px;
+    color:#e0e0e0;
     background-color: #222; /* Darker gray background for the form container */
     border-radius: 8px; /* Rounded corners for the container */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4); /* Subtle shadow for depth */
@@ -243,6 +248,7 @@ button:hover {
 .logo {
     margin-bottom: 20px; /* Space between the logo and the login form */
     text-align: center;
+    color: #e0e0e0;
 }
 
 .logo svg {
@@ -259,9 +265,10 @@ button:hover {
     align-items: center;
     justify-content: center;
     padding: 20px;
-    background-color: #f9fafb;
+    background-color: #1c1c1e;
 }
 
+/*#0F1117*/
 .empty-state-content {
     max-width: 400px;
     text-align: center;
@@ -270,7 +277,7 @@ button:hover {
     align-items: center;
     flex-direction: column;
     padding: 40px;
-    background-color: white;
+    background-color: #FFFFF0;
     border-radius: 12px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -349,4 +356,129 @@ button:hover {
 .new-injury {
     /* display:none; */
     position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white; /* White background for contrast */
+    width: 400px; /* Sets a consistent width */
+    text-align: center; /* Centers text and content inside */
+}
+
+
+
+/*new injury modal css*/
+
+/* Modal overlay (background dimming effect) */
+.modal-overlay {
+    position: fixed; /* Covers the entire viewport */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    z-index: 999; /* Places it below the modal */
+}
+
+/* Modal container */
+.modal-container {
+    position: fixed;
+    top: 50%; /* Centers vertically */
+    left: 50%; /* Centers horizontally */
+    transform: translate(-50%, -50%); /* Moves modal to the center */
+    background: white; /* White background for contrast */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds subtle shadow */
+    width: 400px;
+    text-align: center; /* Centers content inside */
+    z-index: 1000;
+}
+
+/* Modal header */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Close button (X in the top-right corner) */
+.close-button {
+    color: rgb(69, 69, 69); /* White 'X' */
+    border: none; /* Remove border */
+    width: 36px; /* Increased size for better proportions */
+    height: 36px; /* Match width for perfect circle */
+    font-size: 18px; /* Slightly larger 'X' */
+    font-weight: bold; /* Make the 'X' stand out */
+    cursor: pointer; /* Pointer cursor on hover */
+    display: flex; /* Flexbox for centering */
+    justify-content: center; /* Horizontally center 'X' */
+    align-items: center; /* Vertically center 'X' */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover and click effects */
+    position: absolute; /* Position in the top-right */
+    top: 10px;
+    right: 10px;
+}
+
+/* Hover effect */
+.close-button:hover {
+    background: #e64545; /* Darker red on hover */
+    transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+/* Active effect (when clicked) */
+.close-button:active {
+    background: #cc3c3c; /* Even darker red */
+    transform: scale(0.95); /* Slightly shrink on click */
+}
+
+
+/* Form label (centers the question) */
+form label {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Dropdown menu */
+.dropdown {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+/* Submit button (Enter button at the bottom) */
+.submit-button {
+    background: #4d79ff; /* Soft blue */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.submit-button:hover {
+    background: #3a5fcc; /* Darker blue on hover */
+}
+
+
+/* i-frame stuff*/
+
+.streamlit-container iframe {
+    width: 100%; /* Full width */
+    height: 100vh; /* Full viewport height */
+    border: none; /* Remove any border */
+    overflow: hidden; /* Prevent internal scrolling */
+}
+
+body {
+    overflow-y: auto; /* Ensure only the page scrolls */
 }

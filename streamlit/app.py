@@ -66,7 +66,6 @@ with col_right:
     st.pyplot(fig)
 
     # Display description below the graph
-    st.markdown("### Description")
     st.markdown(f"""
     - **Selected Day:** {st.session_state.selected_day}
     - **ROM Gained on Selected Day:** {selected_rom}°
@@ -75,3 +74,32 @@ with col_right:
     Use this visualization to monitor your progress and identify trends. For the selected day, 
     you achieved a ROM gain of **{selected_rom} degrees**, which reflects your improvement.
     """)
+
+#get's rid of orange line
+import streamlit as st
+
+# Inject CSS to hide the header, footer, and main menu
+hide_streamlit_style = """
+    <style>
+    /* Hide header (orange line) and main menu */
+    #MainMenu {visibility: hidden;}
+    header {visibility: hidden;}
+    footer {visibility: hidden;}
+    </style>
+"""
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
+# Inject CSS to hide scrollbars
+hide_scrollbar_style = """
+    <style>
+    /* Hide scrollbars */
+    ::-webkit-scrollbar {
+        display: none;
+    }
+    body {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+    </style>
+"""
+st.markdown(hide_scrollbar_style, unsafe_allow_html=True)
