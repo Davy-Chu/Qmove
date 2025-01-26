@@ -91,12 +91,19 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 
 
-# Inject CSS to disable scrolling
-disable_scrollbar = """
+
+
+# Inject CSS to hide scrollbars
+hide_scrollbar_style = """
     <style>
+    /* Hide scrollbars */
+    ::-webkit-scrollbar {
+        display: none;
+    }
     body {
-        overflow: hidden; /* Disable scrolling */
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
     }
     </style>
 """
-st.markdown(disable_scrollbar, unsafe_allow_html=True)
+st.markdown(hide_scrollbar_style, unsafe_allow_html=True)

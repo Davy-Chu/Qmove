@@ -1,7 +1,9 @@
 /* App.css */
 /* Dashboard Layout */
 .dashboard-container {
+    background: linear-gradient(to bottom,#1c1c1e ,#0F1117,#0F1117,#0F1117,#0F1117,#0F1117,#0F1117);
     padding: 24px;
+    
 }
 
 /* Days Header */
@@ -281,7 +283,7 @@ button:hover {
     background-color: #1c1c1e;
 }
 
-
+/*#0F1117*/
 .empty-state-content {
     max-width: 400px;
     text-align: center;
