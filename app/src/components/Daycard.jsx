@@ -1,4 +1,6 @@
 export default function Daycard(props) {
+    
+    // day = Number(day);
     return (
         <div
             key={props.index}

@@ -67,13 +67,14 @@ def get_rom():
         if rom is not None:
             prompt = generate_prompt(rom)
             llm_response = query_llm(prompt)
-            day = f"Day {collection.count_documents({}) + 1}"
+            day = f"{len(list(collection.find({}))) + 1}"
             save_to_mongodb(day, rom, llm_response, image_path)
             return jsonify({
                 "rom": rom,
                 "prompt": prompt,
                 "llm_response": llm_response,
                 "image": image_path,
+                "day": day,
                 "status": "Data saved to MongoDB."
             })
         else:

@@ -36,9 +36,9 @@ export default function Dashboard() {
                 // console.log(res.data.image.split('/'));
                 console.log(img)
                 if (cards[0].day === dayCount) {
-                    setCards(cards => [{ day: dayCount, value: res.data.rom, image: img }, ...cards.slice(1, -1)]);
+                    setCards(cards => [{ day: res.data.day, value: res.data.rom, image: img }, ...cards.slice(1, -1)]);
                 } else {
-                    setCards(cards => [{ day: dayCount, value: res.data.rom, image: img }, ...cards]);
+                    setCards(cards => [{ day: res.data.day, value: res.data.rom, image: img }, ...cards]);
                     // setDayCount(dayCount + 1);
                     console.log(cards);
                     if (cards[0].day === 0) {

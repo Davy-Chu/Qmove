@@ -24,10 +24,8 @@ def get_next_filename(folder, prefix="image", extension=".jpg"):
     return os.path.join(folder, f"{prefix}{next_number}{extension}")
 
 def track_arm_rom():
-    highest_angle_right = 0
-    highest_angle_left = 0
-    hold_start_time_right = None
-    hold_start_time_left = None
+    highest_angle = 0
+    hold_start_time = None
     hold_duration = 3
     angle_threshold = 15
     cap = cv2.VideoCapture(0)
@@ -52,8 +50,7 @@ def track_arm_rom():
             return None, None
 
     print("Tracking started.")
-    final_angle_right = None
-    final_angle_left = None
+    final_angle = None
     saved_file_path = None
 
     while cap.isOpened():
@@ -68,7 +65,6 @@ def track_arm_rom():
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
         if results.pose_landmarks:
-
             landmarks = results.pose_landmarks.landmark
             right_shoulder = [landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].x,
                               landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].y]
@@ -76,84 +72,35 @@ def track_arm_rom():
                          landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value].y]
             right_wrist = [landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].x,
                            landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].y]
-            
-            left_shoulder = [landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x,
-                              landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y]
-            left_hip = [landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].x,
-                         landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].y]
-            left_wrist = [landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].x,
-                           landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].y]
 
+            arm_angle = calculate_angle(right_hip, right_shoulder, right_wrist)
 
-            arm_angle_right = calculate_angle(right_hip, right_shoulder, right_wrist)
-            arm_angle_left = calculate_angle(left_hip, left_shoulder, left_wrist)
+            if arm_angle > highest_angle:
+                highest_angle = arm_angle
+                hold_start_time = time.time()
 
-              # right arm
+            if highest_angle - arm_angle <= angle_threshold:
+                if hold_start_time and (time.time() - hold_start_time >= hold_duration):
+                    final_angle = int(highest_angle)
+                    print(f"ROM: {final_angle}° from starting position.")
 
-            if arm_angle_right > highest_angle_right:
-                highest_angle_right = arm_angle_right
-                hold_start_time_right = time.time()
-
-            if highest_angle_right - arm_angle_right <= angle_threshold:
-                if hold_start_time_right and (time.time() - hold_start_time_right >= hold_duration):
-                    final_angle_right = int(highest_angle_right)
-                    print(f"ROM: {final_angle_right}° from starting position (right arm.)")
-
-                    # Take a photo and save it
-                    timestamp_right = time.strftime("%Y%m%d_%H%M%S")
-                    filename = f"ROM_{final_angle_right}_degrees_{timestamp_right}.jpg"
-                    file_path = os.path.join(output_folder, filename)
-                    cv2.imwrite(file_path, frame)
-                    print(f"Photo saved: {file_path}")
-
-                    cap.release()
-                    cv2.destroyAllWindows()
-                    return final_angle_right
-            else:
-                hold_start_time_right = None
-
-            
-              # left arm
-
-            if arm_angle_left > highest_angle_left:
-                highest_angle_left = arm_angle_left
-                hold_start_time_left = time.time()
-
-            if highest_angle_left - arm_angle_left <= angle_threshold:
-                if hold_start_time_left and (time.time() - hold_start_time_left >= hold_duration):
-                    final_angle_left = int(highest_angle_left)
-                    print(f"ROM: {final_angle_left}° from starting position (left arm.)")
-
-                    # Take a photo and save it
-                    timestamp_left = time.strftime("%Y%m%d_%H%M%S")
-                    filename = f"ROM_{final_angle_left}_degrees_{timestamp_left}.jpg"
-                    file_path = os.path.join(output_folder, filename)
-                    cv2.imwrite(file_path, frame)
-                    print(f"Photo saved: {file_path}")
+                    # Determine the next filename for the image
+                    filename = get_next_filename(output_folder)
+                    cv2.imwrite(filename, frame)
+                    print(f"Photo saved: {filename}")
 
                     saved_file_path = filename
                     cap.release()
                     cv2.destroyAllWindows()
-                    #return final_angle, saved_file_path_left   
-                    #^eventually comment this out when we let you switch arms in the software
+                    return final_angle, saved_file_path
             else:
-                hold_start_time_left = None
+                hold_start_time = None
 
-
-            
-
-            cv2.putText(image, f'Right Arm Angle: {int(arm_angle_right)} deg', (800, 50),
+            cv2.putText(image, f'Arm Angle: {int(arm_angle)} deg', (50, 50),
                         cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2)
-            
-            cv2.putText(image, f'Left Arm Angle: {int(arm_angle_left)} deg', (50, 50),
-                        cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2)
-            
             h, w, _ = image.shape
             for point in [right_shoulder, right_hip, right_wrist]:
                 cv2.circle(image, (int(point[0] * w), int(point[1] * h)), 10, (0, 255, 0), -1)
-
-            for point in [left_shoulder, left_hip, left_wrist]:
-                cv2.circle(image, (int(point[0] * w), int(point[1] * h)), 10, (0, 0, 255), -1)
 
         cv2.imshow("Arm Angle Tracker", image)
         key = cv2.waitKey(10)
