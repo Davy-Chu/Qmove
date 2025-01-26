@@ -12,4 +12,5 @@
 
 ### **Streamlit**
 - **Install dependencies**: `pip install -r requirements.txt`
+- **Activate the Virtual Environment**: `.\venv\Scripts\activate`
 - **Start the app**: `streamlit run app.py`
