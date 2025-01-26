@@ -10,7 +10,7 @@ export default function Daycard(props) {
                 alt={props.title}
                 className="card-image"
             />
-            <p className="card-value">{props.value}</p>
+            <p className="card-value">ROM: {props.value}</p>
         </div>
     );
 }
